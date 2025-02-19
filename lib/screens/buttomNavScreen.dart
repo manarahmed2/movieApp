@@ -13,7 +13,7 @@ class Buttomnavscreen extends StatefulWidget {
 class _ButtomnavscreenState extends State<Buttomnavscreen> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = [Homescreen(), Discoverscreen(), Profilescreen()];
+  final List<Widget> _pages = [Homescreen(), DiscoverScreen(), Profilescreen()];
 
   @override
   Widget build(BuildContext context) {

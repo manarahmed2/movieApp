@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/models/movieModel.dart';
 
 class MovieCard extends StatelessWidget {
-  const MovieCard({
-    super.key,
-  });
+  final MovieModel movie;
+
+  const MovieCard({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,9 @@ class MovieCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               image: DecorationImage(
-                image: AssetImage("assets/image1.jpeg"),
+                image: NetworkImage(
+                  "https://image.tmdb.org/t/p/w500${movie.image}",
+                ),
                 fit: BoxFit.cover,
               ),
             ),
@@ -41,18 +44,20 @@ class MovieCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
-                  "Soul",
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Text(
+                    movie.title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  "2020",
+                  "(${movie.date.split('-')[0]})",
                   style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 14,

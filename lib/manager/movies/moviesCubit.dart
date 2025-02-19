@@ -15,16 +15,21 @@ class MoviesCubit extends Cubit<MoviesState> {
             "movie/popular?api_key=c217c2ceb96deb7de1b913eee12d55c8&language=en-US",
       );
 
-      List<MovieModel> movies = [];
-      for (var i in json["movies"]) {
-        movies.add(MovieModel(
-          media_type: i['media_type'],
-          title: i["title"],
-          image: i['poster_path'],
-          date: i['date'],
-          rate: i['vote_average'],
-        ));
+      // ✅ التحقق من `results` قبل التكرار
+      if (json["results"] == null || json["results"] is! List) {
+        throw Exception("No movies found in API response");
       }
+
+      List<MovieModel> movies = [];
+     for (var i in json["results"]) {
+  movies.add(MovieModel(
+    media_type: i['media_type'] ?? "Unknown",
+    title: i["original_title"] ?? "No Title",
+    image: i["poster_path"] ?? "No Image",
+    date: i["release_date"] ?? "No Date",
+    rate: (i['vote_average'] ?? 0.0).toString(), // ✅ تحويل `double` إلى `String`
+  ));
+}
 
       emit(MoviesLoaded(movies: movies));
     } catch (e) {

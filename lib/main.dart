@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/manager/movies/moviesCubit.dart';
 import 'package:movies_app/manager/trending/trendingCubit.dart';
 import 'package:movies_app/screens/buttomNavScreen.dart';
 
@@ -12,12 +13,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        child: MaterialApp(
-          theme: ThemeData.dark(),
-          debugShowCheckedModeBanner: false,
-          home: Buttomnavscreen(),
-        ),
-        create: (context) => Trendingcubit()..getTrendingMovies());
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => MoviesCubit()..fetchMovies()),
+        BlocProvider(create: (context) => Trendingcubit()..getTrendingMovies()),
+      ],
+      child: MaterialApp(
+        theme: ThemeData.dark(),
+        debugShowCheckedModeBanner: false,
+        home: Buttomnavscreen(),
+      ),
+    );
   }
 }

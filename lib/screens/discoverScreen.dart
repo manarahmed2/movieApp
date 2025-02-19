@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/manager/movies/moviesCubit.dart';
 import 'package:movies_app/widgets/discoverScreen/movieGrid.dart';
 import 'package:movies_app/widgets/discoverScreen/searchBar.dart';
 
-class Discoverscreen extends StatefulWidget {
-  const Discoverscreen({super.key});
+class DiscoverScreen extends StatefulWidget {
+  const DiscoverScreen({super.key});
 
   @override
-  State<Discoverscreen> createState() => _DiscoverscreenState();
+  State<DiscoverScreen> createState() => _DiscoverScreenState();
 }
 
-class _DiscoverscreenState extends State<Discoverscreen> {
-  final List<String> categories = [
-    "Movies",
-    "Tv Series",
-    "Documentary",
-    "Sports"
-  ];
+class _DiscoverScreenState extends State<DiscoverScreen> {
+  final List<String> categories = ["Movies", "Tv Series", "Documentary", "Sports"];
   String selectedCategory = "Movies";
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<MoviesCubit>().fetchMovies(); // ✅ استدعاء جلب الأفلام عند فتح الصفحة
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +29,17 @@ class _DiscoverscreenState extends State<Discoverscreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Find Movies, Tv series,",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
             ),
-            Text(
+            const Text(
               "and more..",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
             ),
-            SizedBox(height: 16),
-            Searchbar(),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
+            const Searchbar(),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: categories.map((category) {
@@ -58,8 +61,8 @@ class _DiscoverscreenState extends State<Discoverscreen> {
                 );
               }).toList(),
             ),
-            SizedBox(height: 32),
-            Expanded(child: Moviegrid()),
+            const SizedBox(height: 32),
+            Expanded(child: MovieGrid()), // ✅ عرض الأفلام في MovieGrid
           ],
         ),
       ),
