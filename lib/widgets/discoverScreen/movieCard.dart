@@ -29,28 +29,27 @@ class MovieCard extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return DetailsScreen();
-              }));
-            },
-            child: Container(
-              height: 180,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                image: DecorationImage(
-                  image: NetworkImage(
-                    "https://image.tmdb.org/t/p/w500${movie.image}",
-                  ),
-                  fit: BoxFit.cover,
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailsScreen(movieId: movie.movieId),
                 ),
+              );
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.network(
+                "https://image.tmdb.org/t/p/w500${movie.image}",
+                height: 180,
+                width: double.infinity,
+                fit: BoxFit.cover,
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: Text(

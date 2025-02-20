@@ -1,39 +1,51 @@
 import 'package:flutter/material.dart';
 
-class Similarcard extends StatelessWidget {
-  const Similarcard({super.key});
+class SimilarCard extends StatelessWidget {
+  final String imageUrl;
+  final String title;
+  final String year;
+
+  const SimilarCard({
+    super.key,
+    required this.imageUrl,
+    required this.title,
+    required this.year,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 100, // تحديد عرض العنصر
+      width: 100,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min, // يجعل العمود يأخذ أقل مساحة ممكنة
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             width: 100,
             height: 120,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              image: const DecorationImage(
-                image: AssetImage("assets/image1.jpeg"),
+              image: DecorationImage(
+                image: NetworkImage(
+                  imageUrl.isNotEmpty
+                      ? imageUrl
+                      : "https://via.placeholder.com/100x120", // ✅ صورة افتراضية
+                ),
                 fit: BoxFit.cover,
               ),
             ),
           ),
           const SizedBox(height: 8),
           Flexible(
-            // استخدام Flexible بدلاً من Expanded
             child: Text(
-              "Star Wars:\nRise of Skywalker\n(2019)",
+              "$title\n($year)",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
-              maxLines: 3,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
           ),
