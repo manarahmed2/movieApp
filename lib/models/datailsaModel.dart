@@ -6,7 +6,7 @@ class DetailsModel {
   final String date;
   final String rate;
   final String image;
-  final List<SimilarMovieModel> similarMovies; // ✅ أضفنا قائمة للأفلام المشابهة
+  final List<SimilarMovieModel> similarMovies; // أضفنا قائمة للأفلام المشابهة
 
   DetailsModel({
     required this.name,

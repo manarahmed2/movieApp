@@ -7,7 +7,7 @@ class MoviesCubit extends Cubit<MoviesState> {
   MoviesCubit() : super(MoviesInitial());
   final Apiservice apiService = Apiservice();
 
-  String category = "movie"; // ✅ التصنيف الافتراضي
+  String category = "movie"; // التصنيف الافتراضي
 
   void setCategory(String newCategory) {
     if (category != newCategory) {
@@ -30,8 +30,7 @@ class MoviesCubit extends Cubit<MoviesState> {
 
       List<MovieModel> movies = [];
       for (var i in json["results"]) {
-        movies.add(MovieModel.fromJson(
-            i, category)); 
+        movies.add(MovieModel.fromJson(i, category));
       }
 
       emit(MoviesLoaded(movies: movies));

@@ -1,5 +1,5 @@
 class MovieModel {
-  final int movieId; // ✅ إضافة الـ id
+  final int movieId; // إضافة الـ id
   final String title;
   final String date;
   final String rate;
@@ -7,7 +7,7 @@ class MovieModel {
   final String mediaType;
 
   MovieModel({
-    required this.movieId, // ✅ مطلوب
+    required this.movieId, // مطلوب
     required this.mediaType,
     required this.title,
     required this.date,
@@ -17,7 +17,7 @@ class MovieModel {
 
   factory MovieModel.fromJson(Map<String, dynamic> json, String category) {
     return MovieModel(
-      movieId: json["id"] ?? 0, // ✅ إحضار id من JSON
+      movieId: json["id"] ?? 0, // إحضار id من JSON
       mediaType: json['media_type'] ?? category,
       title: category == "movie"
           ? json["original_title"] ?? "No Title"
