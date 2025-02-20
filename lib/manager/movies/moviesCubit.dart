@@ -7,29 +7,32 @@ class MoviesCubit extends Cubit<MoviesState> {
   MoviesCubit() : super(MoviesInitial());
   final Apiservice apiService = Apiservice();
 
+  String category = "movie"; // ✅ التصنيف الافتراضي
+
+  void setCategory(String newCategory) {
+    if (category != newCategory) {
+      category = newCategory;
+      fetchMovies();
+    }
+  }
+
   Future<void> fetchMovies() async {
     emit(MoviesLoading());
     try {
       var json = await apiService.getTrending(
         endPoint:
-            "movie/popular?api_key=c217c2ceb96deb7de1b913eee12d55c8&language=en-US",
+            "$category/popular?api_key=c217c2ceb96deb7de1b913eee12d55c8&language=en-US",
       );
 
-      // ✅ التحقق من `results` قبل التكرار
       if (json["results"] == null || json["results"] is! List) {
-        throw Exception("No movies found in API response");
+        throw Exception("No $category found in API response");
       }
 
       List<MovieModel> movies = [];
-     for (var i in json["results"]) {
-  movies.add(MovieModel(
-    media_type: i['media_type'] ?? "Unknown",
-    title: i["original_title"] ?? "No Title",
-    image: i["poster_path"] ?? "No Image",
-    date: i["release_date"] ?? "No Date",
-    rate: (i['vote_average'] ?? 0.0).toString(), // ✅ تحويل `double` إلى `String`
-  ));
-}
+      for (var i in json["results"]) {
+        movies.add(MovieModel.fromJson(
+            i, category)); 
+      }
 
       emit(MoviesLoaded(movies: movies));
     } catch (e) {

@@ -12,13 +12,19 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> {
-  final List<String> categories = ["Movies", "Tv Series", "Documentary", "Sports"];
+  final List<Map<String, String>> categories = [
+    {"title": "Movies", "type": "movie"},
+    {"title": "Tv Series", "type": "tv"},
+    {"title": "Documentary", "type": "documentary"},
+    {"title": "Sports", "type": "sports"}
+  ];
+
   String selectedCategory = "Movies";
 
   @override
   void initState() {
     super.initState();
-    context.read<MoviesCubit>().fetchMovies(); // ✅ استدعاء جلب الأفلام عند فتح الصفحة
+    context.read<MoviesCubit>().fetchMovies();
   }
 
   @override
@@ -43,15 +49,16 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: categories.map((category) {
-                bool isSelected = selectedCategory == category;
+                bool isSelected = selectedCategory == category["title"];
                 return GestureDetector(
                   onTap: () {
                     setState(() {
-                      selectedCategory = category;
+                      selectedCategory = category["title"]!;
                     });
+                    context.read<MoviesCubit>().setCategory(category["type"]!);
                   },
                   child: Text(
-                    category,
+                    category["title"]!,
                     style: TextStyle(
                       color: isSelected ? Colors.red : Colors.white,
                       fontSize: 15,
@@ -62,7 +69,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               }).toList(),
             ),
             const SizedBox(height: 32),
-            Expanded(child: MovieGrid()), // ✅ عرض الأفلام في MovieGrid
+            Expanded(
+                child: MovieGrid()), // ✅ عرض الأفلام بناءً على التصنيف المختار
           ],
         ),
       ),

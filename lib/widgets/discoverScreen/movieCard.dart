@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/models/movieModel.dart';
+import 'package:movies_app/screens/detailsScreen.dart';
 
 class MovieCard extends StatelessWidget {
   final MovieModel movie;
@@ -26,16 +27,23 @@ class MovieCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 180,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              image: DecorationImage(
-                image: NetworkImage(
-                  "https://image.tmdb.org/t/p/w500${movie.image}",
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return DetailsScreen();
+              }));
+            },
+            child: Container(
+              height: 180,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                image: DecorationImage(
+                  image: NetworkImage(
+                    "https://image.tmdb.org/t/p/w500${movie.image}",
+                  ),
+                  fit: BoxFit.cover,
                 ),
-                fit: BoxFit.cover,
               ),
             ),
           ),
