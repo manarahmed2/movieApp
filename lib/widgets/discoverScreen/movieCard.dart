@@ -5,7 +5,7 @@ import 'package:movies_app/screens/detailsScreen.dart';
 class MovieCard extends StatelessWidget {
   final MovieModel movie;
 
-  const MovieCard({super.key, required this.movie});
+  const MovieCard({Key? key, required this.movie}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,10 @@ class MovieCard extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DetailsScreen(movieId: movie.movieId),
+                  builder: (context) => DetailsScreen(
+                    movieId: movie.movieId,
+                    mediaType: movie.mediaType,
+                  ),
                 ),
               );
             },
@@ -40,7 +43,7 @@ class MovieCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               child: Image.network(
                 "https://image.tmdb.org/t/p/w500${movie.image}",
-                height: 180,
+                height: 150,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -56,7 +59,7 @@ class MovieCard extends StatelessWidget {
                     movie.title,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
                     maxLines: 1,
@@ -67,7 +70,7 @@ class MovieCard extends StatelessWidget {
                   "(${movie.date.split('-')[0]})",
                   style: const TextStyle(
                     color: Colors.white70,
-                    fontSize: 14,
+                    fontSize: 12,
                   ),
                 ),
               ],

@@ -4,16 +4,16 @@ import 'package:movies_app/manager/details/detailsCubit.dart';
 import 'package:movies_app/manager/details/detailsState.dart';
 import 'package:movies_app/widgets/details/similarCardMovie.dart';
 
-
 class DetailsScreen extends StatelessWidget {
   final int movieId;
-
-  const DetailsScreen({super.key, required this.movieId});
+  final String mediaType;
+  const DetailsScreen({super.key, required this.movieId, required this.mediaType});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MovieDetailsCubit()..getMovieDetails(movieId), // ✅ تحميل بيانات الفيلم عند فتح الشاشة
+      create: (context) => MovieDetailsCubit()
+        ..getMovieDetails(movieId,mediaType), // ✅ تحميل بيانات الفيلم عند فتح الشاشة
       child: Scaffold(
         backgroundColor: Colors.black,
         body: BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
@@ -46,7 +46,8 @@ class DetailsScreen extends StatelessWidget {
                           top: 40,
                           left: 10,
                           child: IconButton(
-                            icon: const Icon(Icons.arrow_back, color: Colors.white, size: 30),
+                            icon: const Icon(Icons.arrow_back,
+                                color: Colors.white, size: 30),
                             onPressed: () => Navigator.pop(context),
                           ),
                         ),
@@ -72,14 +73,16 @@ class DetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
                                 decoration: BoxDecoration(
                                   color: Colors.grey[800],
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: const Text(
                                   '4K',
-                                  style: TextStyle(color: Colors.white, fontSize: 14),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 14),
                                 ),
                               ),
                             ],
@@ -87,38 +90,50 @@ class DetailsScreen extends StatelessWidget {
                           const SizedBox(height: 10),
                           Row(
                             children: [
-                              const Icon(Icons.access_time, color: Colors.white70, size: 18),
+                              const Icon(Icons.access_time,
+                                  color: Colors.white70, size: 18),
                               const SizedBox(width: 5),
                               Text(
                                 movie.date,
-                                style: const TextStyle(color: Colors.white70, fontSize: 14),
+                                style: const TextStyle(
+                                    color: Colors.white70, fontSize: 14),
                               ),
                               const SizedBox(width: 20),
-                              const Icon(Icons.star, color: Colors.amber, size: 18),
+                              const Icon(Icons.star,
+                                  color: Colors.amber, size: 18),
                               const SizedBox(width: 5),
                               Text(
                                 '${movie.rate} (IMDb)',
-                                style: const TextStyle(color: Colors.white70, fontSize: 14),
+                                style: const TextStyle(
+                                    color: Colors.white70, fontSize: 14),
                               ),
                             ],
                           ),
                           const SizedBox(height: 20),
                           const Text(
                             'Synopsis',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
                           ),
                           const SizedBox(height: 10),
                           Text(
                             movie.overView,
-                            style: const TextStyle(color: Colors.white70, fontSize: 14),
+                            style: const TextStyle(
+                                color: Colors.white70, fontSize: 14),
                           ),
                           const SizedBox(height: 20),
                           const Text(
                             'Related Movies',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
                           ),
                           const SizedBox(height: 10),
-                          SimilarMovieList(movieId: movieId), // ✅ تمرير movieId هنا
+                          SimilarMovieList(
+                              movieId: movieId), // ✅ تمرير movieId هنا
                         ],
                       ),
                     ),

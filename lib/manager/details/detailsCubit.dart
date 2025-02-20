@@ -9,12 +9,12 @@ class MovieDetailsCubit extends Cubit<MovieDetailsState> {
   MovieDetailsCubit() : super(MovieDetailsInitial());
   final Apiservice apiService = Apiservice();
 
-  Future<void> getMovieDetails(int movieId) async {
+  Future<void> getMovieDetails(int movieId, String mediaType) async {
     emit(MovieDetailsLoading());
     try {
       var json = await apiService.getTrending(
         endPoint:
-            "movie/$movieId?api_key=c217c2ceb96deb7de1b913eee12d55c8&language=en-US&append_to_response=similar",
+            "$mediaType/$movieId?api_key=c217c2ceb96deb7de1b913eee12d55c8&language=en-US&append_to_response=similar",
       );
 
       if (json == null || json.isEmpty) {
@@ -27,15 +27,15 @@ class MovieDetailsCubit extends Cubit<MovieDetailsState> {
           similarMovies.add(SimilarMovieModel(
             name: item["original_title"] ?? "Unknown",
             image: "https://image.tmdb.org/t/p/w500${item["poster_path"]}",
-            date: item["release_date"] ?? "No date",
+            date: item["air_date"] ?? "No date",
           ));
         }
       }
 
       DetailsModel movie = DetailsModel(
-        name: json["original_title"] ?? "Unknown",
+        name: json["original_name"] ?? json["original_title"] ?? "Unknown",
         overView: json["overview"] ?? "No overview available",
-        date: json["release_date"] ?? "No date",
+        date: json["first_air_date"] ?? json["release_date"] ?? "No date",
         rate: json["vote_average"].toString(),
         image: "https://image.tmdb.org/t/p/w500${json["poster_path"]}",
         similarMovies: similarMovies, // تم تمرير الأفلام المشابهة
