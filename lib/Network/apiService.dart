@@ -8,7 +8,7 @@ class Apiservice {
     try {
       Response response = await dio.get("$baseUrl$endPoint");
 
-      // ✅ التأكد من أن البيانات ليست `null`
+   
       if (response.data == null || response.data.isEmpty) {
         throw Exception("Empty response from API");
       }
